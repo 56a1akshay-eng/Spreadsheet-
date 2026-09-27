@@ -1,0 +1,63 @@
+#include<bits/stdc++.h>
+using namespace std;
+//header files
+//we are converting no  1,2,3,...to A,B,C,..
+string numTocol(int num){
+    string result="";
+    while(num>0){
+        num--;
+        result=char('A'+num%26)+result;
+        num/=26;
+    } return result;
+    
+}
+// we are converting letters A,B,C,.. to 1,2,3,..
+int colTonum(string col){
+    int result=0;
+    for(char c:col){
+        result=result*26+(c-'A'+1);
+    }
+    return result;
+}
+int main(){
+    int n;
+    cin>>n;
+//we are taking the input and checking it if it is in RXCY format
+    for(int i=0;i<n;i++){
+        string coord;
+        cin>>coord;
+        bool isRXCY = false;
+        int cpos=-1;
+        if(coord[0]=='R'&&isdigit(coord[1])){
+            for(int j=2;j<coord.length();j++){
+                if(coord[j]=='C'){
+                    if(j+1<coord.length()&&isdigit(coord[j+1])){
+                        isRXCY= true;
+                        cpos=j;
+                        break;
+                        
+                    }
+                }
+            }
+        }
+        if(isRXCY){
+            string rowstr=coord.substr(1,cpos-1);
+            string colstr=coord.substr(cpos+1);
+            int col=stoi(colstr);
+            cout<<numTocol(col)<<rowstr<<"\n";
+            
+        }
+        else{
+            int j=0;
+            while(j<coord.length()&&isalpha(coord[j])){
+                j++;
+            }
+            string colstr=coord.substr(0,j);
+            string rowstr=coord.substr(j);
+            int col=colTonum(colstr);
+             
+             cout<<"R"<<rowstr<<"C"<<col<<"\n";
+        }
+    }
+    return 0;
+}
